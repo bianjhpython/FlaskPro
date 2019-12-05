@@ -36,6 +36,11 @@ class ArticleResource(Resource):
 
 			]
 		}
+		self.register_methods = {}
+		self.register()
+	def register(self):
+		self.register_methods["add_article"] = self.add_article
+		self.register_methods["login"] = self.login
 
 	def get_dict(self,data):
 		obj_dict = data.__dict__
@@ -72,28 +77,44 @@ class ArticleResource(Resource):
 				self.response["data"] = article_list
 		self.response["history_url"] = history_url
 		return self.response
+	def add_article(self):
+		title = request.form.get("title")
+		author = request.form.get("author")
+		description = request.form.get("description")
+		content = request.form.get("content")
+		public_time = request.form.get("p_time")
+
+		article = Article()
+		article.title = title
+		article.author = author
+		article.description = description
+		article.content = content
+		if public_time:
+			article.public_time = public_time
+		else:
+			article.public_time = datetime.datetime.now()
+		article.save()
+		result = {
+			"id": article.id,
+			"title": title,
+			"author": author,
+			"description": description,
+			"content": content,
+			"public_time": article.public_time.strftime("%Y-%m-%d %H:%M:%H")
+		}
+		return result
+	def login(self):
+		result = {"token": "123h12l3jl12j3o12j3o"}
+		return result
 
 	def post(self):
-		if request.method == "POST":
-			title = request.form.get("title")
-			author = request.form.get("author")
-			description = request.form.get("description")
-			content = request.form.get("content")
-			public_time = request.form.get("p_time")
-
-			article = Article()
-			article.title = title
-			article.author = author
-			article.description = description
-			article.content = content
-			if public_time:
-				article.public_time = public_time
-			else:
-				article.public_time = datetime.datetime.now()
-			article.save()
-
-			self.response["data"].append("")
-
+		request_type = request.form.get("type")
+		if request_type in self.register_methods:
+			reulst = self.register_methods.get(request_type)()
+			self.response["data"].append(reulst)
+		else:
+			self.response["code"] = "400"
+			self.response["data"].append({"error":"keyError"})
 		return self.response
 
 	def put(self):

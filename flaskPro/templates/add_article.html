@@ -38,6 +38,7 @@
                         }
                     }
                     if(send_data){
+                        send_data["type"] = "add_article";
                         $.ajax(
                             {
                                 url: "/Api/Article/",

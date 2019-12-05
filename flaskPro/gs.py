@@ -41,6 +41,7 @@ for link in link_list:
             print(d)
             url = "http://127.0.0.1:8000/Api/Article/"
             data = {
+                "type": "add_article",
                 "title": t,
                 "author": a,
                 'description': d,
