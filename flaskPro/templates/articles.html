@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/vue-resource.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/add_page.css">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div id="body" style="width: 80%; margin: 6% auto;">
+        <h1 style="text-align: center;">{[ article.title ]}</h1>
+        <p style="text-align: right;">{[ article.author ]}</p>
+        <hr>
+        <p>
+            {[ article.content ]}
+        </p>
+        <hr>
+            <p class="label label-primary pull-left">上一篇: 琵琶行</p>
+            <p class="label label-primary pull-right">下一篇: 昭君出塞</p>
+
+    </div>
+    <script>
+        Vue.use(VueResource);
+        var vue = new Vue(
+            {
+                delimiters:['{[', ']}'],
+                el: "#body",
+                data: {
+                    article: {}
+                },
+                created: function () {
+                    url = "/Api/Article/"+'{{ aritcle_id }}'+'/';
+                    this.$http.get(url).then(
+                        function (data) {
+                            this.article = data["data"]["data"][0];
+                            console.log(data["data"]["data"][0])
+                        },
+                        function (error) {
+                            console.log(error)
+                        }
+                    )
+                },
+                methods : {
+
+                }
+            }
+        )
+    </script>
+</body>
+</html>
