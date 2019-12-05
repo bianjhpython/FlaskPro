@@ -59,7 +59,6 @@ class ArticleResource(Resource):
 							Article.author.like("%" + search_key + "%")
 						)
 					).paginate(page,page_size)
-
 				article_list = [self.get_dict(art) for art in articles.items]
 				self.response["page"] = list(range(1,articles.pages+1))
 				self.response["data"] = article_list

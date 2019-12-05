@@ -50,7 +50,7 @@
                     data: {
                         article_list: [],
                         page_list: [],
-                        history_url: ''
+                        keywords: ''
                     },
                     created: function () {
                         url = "/Api/Article/Search/";
@@ -72,6 +72,10 @@
                         },
                         get_page: function (page) {
                             url = "/Api/Article/Search/?page="+page;
+                            if(this.keywords){
+                                url = "/Api/Article/Search/?search_key="+this.keywords+"&page="+page;
+                            }
+                            console.log(url);
                             this.request(url)
                         },
                         get_search: function () {
@@ -79,6 +83,7 @@
                             if(keywords){
                                 url = "/Api/Article/Search/?search_key="+keywords;
                                 this.request(url);
+                                this.keywords = keywords;
                                 console.log("hello world")
                             }
                         }
