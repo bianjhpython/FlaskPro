@@ -19,6 +19,10 @@ def list_page():
 def article(id):
 	return render_template("articles.html",aritcle_id = id)
 
+@app.route("/statistics/")
+def statistics():
+	return render_template("statistics.html",aritcle_id = id)
+
 import datetime
 from models import Article
 from sqlalchemy import or_

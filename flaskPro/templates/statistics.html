@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/vue-resource.js"></script>
+    <script src="/static/js/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/add_page.css">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <canvas id="picture" width="1200px" height="500px">
+
+    </canvas>
+    <script>
+        var Chart = echarts.init(document.getElementById("picture"));
+
+        var option = {
+            title: {
+                text: "诗词采集案例"
+            },
+            toolip: {},
+            legend: {
+                data: ["采集量"]
+            },
+            xAxis: {
+                data: ["12:11:00","12:11:05","12:11:10","12:11:15","12:11:20","12:11:25","12:11:30","12:11:35","12:11:40","12:11:45","12:11:50","12:11:55","12:12:00","12:12:05","12:12:10","12:12:15","12:12:20","12:12:30"]
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: "采集量",
+                    type: "line",
+                    data: ["12","13","12","13","11","18","8","6","11","12","13","11","18","8","6","18","8","6"]
+                }
+            ]
+
+        };
+        Chart.setOption(option);
+    </script>
+</body>
+</html>
