@@ -21,7 +21,7 @@ def article(id):
 
 import datetime
 from models import Article
-
+from sqlalchemy import or_
 class ArticleResource(Resource):
 	def __init__(self):
 		super(ArticleResource,self).__init__()
@@ -52,6 +52,14 @@ class ArticleResource(Resource):
 				page = int(request.args.get("page",1))
 				page_size = 20
 				articles = Article.query.paginate(page,page_size)
+				if search_key:
+					articles = Article.query.filter(
+						or_(
+							Article.title.like("%" + search_key + "%"),
+							Article.author.like("%" + search_key + "%")
+						)
+					).paginate(page,page_size)
+
 				article_list = [self.get_dict(art) for art in articles.items]
 				self.response["page"] = list(range(1,articles.pages+1))
 				self.response["data"] = article_list

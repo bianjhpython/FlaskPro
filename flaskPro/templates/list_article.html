@@ -13,14 +13,14 @@
     <body>
         <div id="body">
             <span>
-                <input class="form-control" type="text" placeholder="搜索" @keyup.enter="get_search">
+                <input id="search_key" class="form-control" type="text" placeholder="搜索" @keyup.enter="get_search">
             </span>
             <table class="table table-bordered" style="text-align: center">
                 <thead>
                     <tr>
                         <td>文章标题</td>
                         <td>文章作者</td>
-                        <td>发表时间</td>
+                        <td>采集时间</td>
                         <td>操作</td>
                     </tr>
                 </thead>
@@ -75,7 +75,12 @@
                             this.request(url)
                         },
                         get_search: function () {
-                            console.log("go to search")
+                            var keywords = $("#search_key").val();
+                            if(keywords){
+                                url = "/Api/Article/Search/?search_key="+keywords;
+                                this.request(url);
+                                console.log("hello world")
+                            }
                         }
                     }
                 }
